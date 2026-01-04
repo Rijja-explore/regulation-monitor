@@ -1,70 +1,272 @@
-# Getting Started with Create React App
+# Agentic AI Compliance Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Enterprise-grade Visa/Banking UI for Continuous PCI/PII Compliance Monitoring
 
-## Available Scripts
+## 🎯 Overview
 
-In the project directory, you can run:
+This is a production-ready React application demonstrating an **Agentic AI-Enabled Continuous Compliance Platform** designed for banking, payments, and regulatory compliance use cases. The UI communicates **intelligence, trust, and causality** through carefully crafted animations and professional design.
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Framework**: React 18
+- **Routing**: React Router DOM
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **CSS Processing**: PostCSS
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🎨 Design Philosophy
 
-### `npm test`
+### Animation Principles
+Animations communicate **State • Confidence • Intelligence • Causality**, not decoration.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**✅ Flashy When:**
+- A risk appears
+- An agent takes action
+- A violation is detected
+- A goal graph updates
 
-### `npm run build`
+**❌ Minimal When:**
+- Navigating menus
+- Reading tables
+- Viewing evidence
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Rule:** Flash = signal, not decoration.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Color Scheme (Visa/Banking-Grade)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Base Colors
+- Background: `#0B1220`
+- Card Surface: `#111A2E`
+- Border/Divider: `#1F2A44`
+- Primary Text: `#E6EAF2`
+- Secondary Text: `#9AA4BF`
 
-### `npm run eject`
+#### Risk Colors
+- 🟢 Compliant: `#1DB954`
+- 🟡 At Risk: `#F4C430`
+- 🔴 Non-Compliant: `#E5484D`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### Accent
+- Visa-safe Blue: `#1A73E8`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── components/
+│   └── Sidebar.js          # Persistent left navigation
+├── pages/
+│   ├── ComplianceOverview.js    # Page 1: Landing dashboard
+│   ├── GoalGraph.js             # Page 2: Visual compliance graph
+│   ├── LiveMonitoring.js        # Page 3: Real-time violation detection
+│   ├── Remediation.js           # Page 4: Automated actions
+│   ├── Evidence.js              # Page 5: Audit trail
+│   └── AgentActivity.js         # Page 6: Agent reasoning
+├── App.js                  # Main routing configuration
+├── index.css              # Global styles + Tailwind
+└── index.js               # Entry point
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🏠 Pages Overview
 
-## Learn More
+### 1. Compliance Overview
+**Purpose**: In 5 seconds, tell if the organization is compliant and why.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Features**:
+- Global compliance status card with glow animation
+- Regulatory risk heatmap table
+- Active risks with staggered slide-in animations
+- Autonomous agent activity timeline
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Animations**:
+- Scale-in for status card
+- Staggered slide from right for risk cards
+- Fade + upward motion for agent feed
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2. Compliance Goal Graph
+**Purpose**: Show compliance as structured, explainable, and executable.
 
-### Analyzing the Bundle Size
+**Features**:
+- Interactive node graph (regulations, controls, violations)
+- Pulsing glow on violation nodes
+- Expandable details panel
+- Goal status summary
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+**Animations**:
+- Node scale-in with stagger
+- Slow pulse for violations (allowed flashy)
+- Panel slide from right
+- Hover scale effects
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 3. Live Monitoring
+**Purpose**: Is something going wrong right now?
 
-### Advanced Configuration
+**Features**:
+- Data source tabs (Transactions, Chats, Documents)
+- Live data viewer with PAN detection
+- Red highlight + shake animation for violations
+- Sticky violation context card
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Animations**:
+- Tab underline motion
+- One-time shake for PAN detection (allowed flashy)
+- Soft glow on context card
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 4. Remediation & Actions
+**Purpose**: What is the system doing about the problem?
 
-### `npm run build` fails to minify
+**Features**:
+- Active remediation task cards
+- State-based animations (planned/executing/completed)
+- AI-generated recommendations
+- Human-in-the-loop approval controls
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Animations**:
+- Executing state: animated background sweep
+- Progress bars with smooth transitions
+- Opacity fade for completed tasks
+
+---
+
+### 5. Evidence & Audit Trail
+**Purpose**: Can you prove compliance to an auditor?
+
+**Features**:
+- Chronological incident timeline
+- Evidence artifact downloads
+- Chain of custody documentation
+
+**Animations**:
+- Minimal: fade-in only
+- No flash (communicates stability)
+- Hover highlight on artifacts
+
+---
+
+### 6. Agent Activity
+**Purpose**: Are the agents actually thinking?
+
+**Features**:
+- Agent status indicators (Active/Waiting/Idle)
+- Recent decision reasoning traces
+- System health metrics
+
+**Animations**:
+- Breathing pulse for active agents
+- Dotted progress for waiting agents
+- Staggered entry for cards
+
+---
+
+## 🚀 Getting Started
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+```bash
+npm start
+```
+
+Opens at [http://localhost:3000](http://localhost:3000)
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+## 🎭 Demo Narrative
+
+"Each page corresponds to a stage in autonomous compliance — **awareness, reasoning, detection, action, and proof**."
+
+### Demo Flow:
+1. **Overview** → See global compliance state
+2. **Goal Graph** → Understand structured compliance goals
+3. **Monitoring** → Detect violations in real-time
+4. **Remediation** → Watch autonomous fixes
+5. **Evidence** → Review audit trail
+6. **Agents** → Examine AI reasoning
+
+## 🧠 Key Features
+
+### Agentic AI Components
+- **Regulation Agent**: Monitors regulatory updates
+- **Policy Agent**: Maintains compliance policies
+- **Monitoring Agent**: Scans data for violations
+- **Remediation Agent**: Executes fixes
+
+### Enterprise-Grade UI
+- No clutter
+- Large spacing
+- Conservative typography
+- Risk colors only for risk
+- Motion only for meaning
+
+### Judge-Ready
+Designed to impress banking, payments, and AI judges with:
+- Professional animations
+- Clear causality
+- Explainable AI decisions
+- Audit-ready evidence
+
+## 📊 Animation Reference
+
+### Global Page Transitions
+```jsx
+initial={{ opacity: 0, y: 12 }}
+animate={{ opacity: 1, y: 0 }}
+exit={{ opacity: 0, y: -12 }}
+transition={{ duration: 0.3, ease: 'easeOut' }}
+```
+
+### Violation Pulse (Flashy - Allowed)
+```jsx
+animate={{
+  boxShadow: [
+    '0 0 0px rgba(229,72,77,0)',
+    '0 0 18px rgba(229,72,77,0.6)',
+    '0 0 0px rgba(229,72,77,0)'
+  ]
+}}
+transition={{ repeat: Infinity, duration: 2 }}
+```
+
+### Agent Breathing Pulse
+```jsx
+animate={{ scale: [1, 1.05, 1] }}
+transition={{ repeat: Infinity, duration: 1.5 }}
+```
+
+## 🔒 Compliance Standards
+
+- **PCI-DSS 3.2.1**: Payment Card Industry Data Security Standard
+- **GDPR**: General Data Protection Regulation
+- **CCPA**: California Consumer Privacy Act
+- **SOX**: Sarbanes-Oxley Act
+
+## 📝 License
+
+MIT
+
+---
+
+**Built for banking infrastructure software. Not a consumer app. Not a startup landing page.**
+
+*Judges will subconsciously think:*
+- ❌ No animation → static mockup
+- ❌ Too flashy → unserious
+- ✅ **State-driven animation → intelligent system**
+
