@@ -1,4 +1,45 @@
 {
   "tenant_id": "visa",
-  "violations": []
+  "violations": [
+    {
+      "violation_id": "VIOL-001-FC2392",
+      "evidence_id": "EVID-TEST-123456",
+      "source_type": "support_chat",
+      "source_id": "TICKET_TEST",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T19:51:35.667872"
+    },
+    {
+      "violation_id": "VIOL-002-D74553",
+      "evidence_id": "EVID-1767556301-B1EB70",
+      "source_type": "support_chat",
+      "source_id": "DEMO_TICKET_001",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-05T00:00:00Z"
+    },
+    {
+      "violation_id": "VIOL-003-A8F565",
+      "evidence_id": "EVID-TEST-123456",
+      "source_type": "support_chat",
+      "source_id": "TICKET_TEST",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T19:59:34.378274"
+    },
+    {
+      "violation_id": "VIOL-004-410A86",
+      "evidence_id": "EVID-TEST-123456",
+      "source_type": "support_chat",
+      "source_id": "TICKET_TEST",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T20:02:09.197430"
+    }
+  ]
 }
