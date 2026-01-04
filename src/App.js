@@ -8,6 +8,7 @@ import LiveMonitoring from './pages/LiveMonitoring';
 import Remediation from './pages/Remediation';
 import Evidence from './pages/Evidence';
 import AgentActivity from './pages/AgentActivity';
+import ViolationAnalysis from './pages/ViolationAnalysis';
 
 function App() {
   return (
@@ -185,6 +186,7 @@ function App() {
               <Route path="/remediation" element={<Remediation />} />
               <Route path="/evidence" element={<Evidence />} />
               <Route path="/agents" element={<AgentActivity />} />
+              <Route path="/violation-analysis" element={<ViolationAnalysis />} />
             </Routes>
           </motion.div>
         </main>

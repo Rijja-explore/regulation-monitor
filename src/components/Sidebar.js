@@ -11,6 +11,7 @@ const Sidebar = () => {
     { path: '/remediation', icon: Wrench, label: 'Remediation & Actions' },
     { path: '/evidence', icon: FolderOpen, label: 'Evidence & Audit Trail' },
     { path: '/agents', icon: Bot, label: 'Agent Activity' },
+    { path: '/violation-analysis', icon: Sparkles, label: 'AI Violation Analysis' },
   ];
 
   return (

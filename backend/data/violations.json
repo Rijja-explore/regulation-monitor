@@ -1,0 +1,75 @@
+{
+  "tenant_id": "visa",
+  "violations": [
+    {
+      "violation_id": "VIOL-001-EC5587",
+      "evidence_id": "EVID-1767562978-43AC3F",
+      "source_type": "support_chat",
+      "source_id": "demo_001",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:42:55.473000Z"
+    },
+    {
+      "violation_id": "VIOL-002-A0165B",
+      "evidence_id": "EVID-1767562978-A80A1F",
+      "source_type": "support_chat",
+      "source_id": "demo_001",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:42:55.473000Z"
+    },
+    {
+      "violation_id": "VIOL-003-B95363",
+      "evidence_id": "EVID-1767563003-306706",
+      "source_type": "application_log",
+      "source_id": "demo_002",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:42:58.468000Z"
+    },
+    {
+      "violation_id": "VIOL-004-4026F5",
+      "evidence_id": "EVID-1767563003-BA3A5B",
+      "source_type": "application_log",
+      "source_id": "demo_002",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:42:59.463000Z"
+    },
+    {
+      "violation_id": "VIOL-005-CF20C3",
+      "evidence_id": "EVID-1767563068-668F01",
+      "source_type": "support_chat",
+      "source_id": "src_1767563053138",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:44:13.138000Z"
+    },
+    {
+      "violation_id": "VIOL-006-226D1C",
+      "evidence_id": "EVID-1767563069-79B069",
+      "source_type": "support_chat",
+      "source_id": "src_1767563055859",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:44:15.859000Z"
+    },
+    {
+      "violation_id": "VIOL-007-DF3F31",
+      "evidence_id": "EVID-1767563069-4CE04D",
+      "source_type": "support_chat",
+      "source_id": "src_1767563060548",
+      "severity": "Critical",
+      "regulation": "PCI-DSS",
+      "description": "PAN exposed in plaintext",
+      "timestamp": "2026-01-04T21:44:20.548000Z"
+    }
+  ]
+}

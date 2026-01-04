@@ -1,10 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, XCircle, Brain, Download, FileText } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
 
 const ComplianceOverview = () => {
+  const navigate = useNavigate();
+  const [liveViolations, setLiveViolations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [backendConnected, setBackendConnected] = useState(false);
+  
+  // Fetch violations from backend
+  useEffect(() => {
+    async function loadViolations() {
+      try {
+        // Check backend health
+        const health = await api.checkHealth();
+        setBackendConnected(health.status === 'healthy');
+        
+        // Fetch existing violations from backend
+        const violations = await api.getViolations();
+        setLiveViolations(violations || []);
+        
+        // If no violations exist, create some demo data
+        if (!violations || violations.length === 0) {
+          try {
+            await api.detectViolation('Customer card number is 4111 1111 1111 1111', 'support_chat', 'demo_001');
+            await api.detectViolation('Payment failed for card 4532015112830366', 'application_log', 'demo_002');
+            
+            // Refetch violations
+            const newViolations = await api.getViolations();
+            setLiveViolations(newViolations || []);
+          } catch (demoError) {
+            console.warn('Demo violation creation failed:', demoError);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to connect to backend:', error);
+        setBackendConnected(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    loadViolations();
+    
+    // Poll for new violations every 5 seconds
+    const interval = setInterval(async () => {
+      try {
+        const violations = await api.getViolations();
+        setLiveViolations(violations || []);
+      } catch (error) {
+        console.error('Failed to fetch violations:', error);
+      }
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   // Global compliance status
-  const complianceStatus = 'AT RISK'; // COMPLIANT | AT RISK | NON-COMPLIANT
+  const complianceStatus = liveViolations.filter(v => v.severity === 'CRITICAL').length > 0 
+    ? 'NON-COMPLIANT' 
+    : liveViolations.length > 0 
+      ? 'AT RISK' 
+      : 'COMPLIANT';
   
   // Regulatory heatmap data
   const regulatoryData = [
@@ -14,30 +73,27 @@ const ComplianceOverview = () => {
     { regulation: 'SOX', data: 'amber', policies: 'green', operations: 'green', overall: 'amber' },
   ];
 
-  // Active risks
-  const activeRisks = [
-    {
-      id: 1,
-      severity: 'red',
-      title: 'PAN detected in support chat',
-      description: 'Credit card number found in ticket #3847',
-    },
-    {
-      id: 2,
-      severity: 'amber',
-      title: 'Policy outdated vs GDPR update',
-      description: 'Data retention policy needs review',
-    },
-    {
-      id: 3,
-      severity: 'green',
-      title: 'No active breach events',
-      description: 'All systems operating normally',
-    },
-  ];
+  // Active risks - now using live violations from backend
+  const activeRisks = liveViolations.length > 0 
+    ? liveViolations.map((v, idx) => ({
+        id: idx + 1,
+        severity: v.severity === 'CRITICAL' ? 'red' : v.severity === 'HIGH' ? 'amber' : 'green',
+        title: v.context?.substring(0, 60) + '...' || 'Compliance violation detected',
+        description: v.regulation || 'PCI-DSS',
+        violationId: v.violation_id
+      }))
+    : [
+        {
+          id: 1,
+          severity: 'green',
+          title: backendConnected ? 'No active violations detected' : 'Backend disconnected',
+          description: backendConnected ? 'All systems operating normally' : 'Unable to connect to backend API',
+        },
+      ];
 
-  // Agent activity feed
+  // Agent activity feed - enhanced with compliance agent
   const agentActivity = [
+    { time: new Date().toLocaleTimeString().substring(0, 5), agent: 'Cognitive Compliance Agent', action: `detected ${liveViolations.length} violations` },
     { time: '10:15', agent: 'Remediation Agent', action: 'proposed fix for PAN exposure' },
     { time: '10:14', agent: 'Monitoring Agent', action: 'flagged violation in support ticket' },
     { time: '10:13', agent: 'Policy Agent', action: 'found missing control in data handling' },
@@ -71,6 +127,25 @@ const ComplianceOverview = () => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="p-8 space-y-8"
     >
+      {/* Backend Connection Status */}
+      {!backendConnected && !loading && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-risk-red/10 border border-risk-red rounded-lg p-4"
+        >
+          <div className="flex items-center gap-3">
+            <XCircle className="text-risk-red" size={24} />
+            <div>
+              <h4 className="font-semibold text-risk-red">Backend API Disconnected</h4>
+              <p className="text-sm text-text-secondary">
+                Unable to connect to http://localhost:8000. Make sure the backend is running.
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Global Compliance Status */}
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
@@ -140,9 +215,18 @@ const ComplianceOverview = () => {
 
       {/* Key Active Risks */}
       <div>
-        <h3 className="text-xl font-semibold mb-4 text-text-primary">
-          Key Active Risks
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-semibold text-text-primary">
+            Key Active Risks
+          </h3>
+          <button
+            onClick={() => navigate('/violation-analysis')}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-visa-blue to-visa-orange text-white rounded-lg hover:shadow-lg transition-all"
+          >
+            <Brain size={18} />
+            AI Analysis Tool
+          </button>
+        </div>
         <div className="grid gap-4">
           {activeRisks.map((risk, index) => (
             <motion.div
@@ -155,6 +239,7 @@ const ComplianceOverview = () => {
                 risk.severity === 'amber' ? 'risk-amber' :
                 'risk-green'
               } cursor-pointer hover:bg-border-color transition-colors`}
+              onClick={() => risk.violationId && navigate('/violation-analysis')}
             >
               <div className="flex items-start gap-4">
                 <div className={`w-3 h-3 rounded-full mt-1 ${getDotColor(risk.severity)}`}></div>
@@ -165,6 +250,11 @@ const ComplianceOverview = () => {
                   <p className="text-text-secondary text-sm">
                     {risk.description}
                   </p>
+                  {risk.violationId && (
+                    <p className="text-xs text-visa-blue font-mono mt-2">
+                      {risk.violationId}
+                    </p>
+                  )}
                 </div>
               </div>
             </motion.div>

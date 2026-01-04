@@ -1,8 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Download, FileText, AlertCircle } from 'lucide-react';
+import api from '../services/api';
 
 const Evidence = () => {
+  const [evidenceRecords, setEvidenceRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadEvidence();
+  }, []);
+
+  const loadEvidence = async () => {
+    try {
+      const records = await api.getEvidence();
+      setEvidenceRecords(records || []);
+    } catch (error) {
+      console.error('Failed to load evidence:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const incidentTimeline = [
     {
       id: 1,
