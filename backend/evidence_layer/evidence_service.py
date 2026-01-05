@@ -3,9 +3,13 @@ import json
 import time
 import uuid
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, Any, Optional, List
 from models.evidence import EvidenceRecord, EventType
 from audit_layer.audit_chain_service import AuditChainService
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class EvidenceService:
@@ -13,7 +17,53 @@ class EvidenceService:
     
     def __init__(self, audit_chain_service: AuditChainService):
         self.audit_chain_service = audit_chain_service
-        self.evidence_store: Dict[str, EvidenceRecord] = {}  # In-memory store (replace with DB)
+        self.evidence_store: Dict[str, EvidenceRecord] = {}  # In-memory store
+        
+        # File-based persistence
+        project_root = Path(__file__).parent.parent
+        self.storage_path = project_root / "data" / "evidence.json"
+        logger.info(f"Evidence storage initialized at: {self.storage_path.absolute()}")
+        self._ensure_storage_exists()
+        self._load_from_file()
+    
+    def _ensure_storage_exists(self):
+        """Create storage file if it doesn't exist"""
+        self.storage_path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.storage_path.exists():
+            initial_data = {
+                "tenant_id": "visa",
+                "evidence": []
+            }
+            with open(self.storage_path, 'w') as f:
+                json.dump(initial_data, f, indent=2)
+            logger.info(f"Created new evidence storage at: {self.storage_path.absolute()}")
+    
+    def _load_from_file(self):
+        """Load existing evidence from file"""
+        try:
+            with open(self.storage_path, 'r') as f:
+                data = json.load(f)
+                for evidence_dict in data.get("evidence", []):
+                    evidence = EvidenceRecord(**evidence_dict)
+                    self.evidence_store[evidence.evidence_id] = evidence
+            logger.info(f"Loaded {len(self.evidence_store)} evidence records from file")
+        except Exception as e:
+            logger.error(f"Error loading evidence from file: {e}")
+    
+    def _save_to_file(self):
+        """Save all evidence to file"""
+        try:
+            data = {
+                "tenant_id": "visa",
+                "evidence": [e.model_dump(mode='json') for e in self.evidence_store.values()]
+            }
+            with open(self.storage_path, 'w') as f:
+                json.dump(data, f, indent=2, default=str)
+            logger.info(f"Saved {len(self.evidence_store)} evidence records to {self.storage_path.absolute()}")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving evidence to file: {e}")
+            return False
     
     def generate_evidence_id(self) -> str:
         """Generate unique evidence ID"""
@@ -48,12 +98,16 @@ class EvidenceService:
             timestamp=datetime.utcnow()
         )
         
-        # Store evidence
+        # Store evidence in memory
         self.evidence_store[evidence_id] = evidence
+        
+        # Persist to file
+        self._save_to_file()
         
         # Append to audit chain
         self.audit_chain_service.append(evidence)
         
+        logger.info(f"Evidence captured: {evidence_id}")
         return evidence
     
     def get_evidence(self, evidence_id: str) -> Optional[EvidenceRecord]:
@@ -73,6 +127,9 @@ class EvidenceService:
         # Create new record with updates
         updated_evidence = EvidenceRecord(**evidence_dict)
         self.evidence_store[evidence_id] = updated_evidence
+        
+        # Persist to file
+        self._save_to_file()
         
         return updated_evidence
     

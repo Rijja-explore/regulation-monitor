@@ -1,16 +1,76 @@
 import hashlib
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import Optional, List, Dict, Any
 from models.evidence import EvidenceRecord
 from models.audit_chain import AuditChainNode
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AuditChainService:
     """Service for managing immutable audit chain"""
     
     def __init__(self):
-        self.chain_store: List[AuditChainNode] = []  # In-memory store (replace with DB)
+        self.chain_store: List[AuditChainNode] = []  # In-memory store
+        
+        # File-based persistence
+        project_root = Path(__file__).parent.parent
+        self.storage_path = project_root / "data" / "audit_chain.json"
+        logger.info(f"Audit chain storage initialized at: {self.storage_path.absolute()}")
+        self._ensure_storage_exists()
+        self._load_from_file()
+    
+    def __init__(self):
+        self.chain_store: List[AuditChainNode] = []  # In-memory store
+        
+        # File-based persistence
+        project_root = Path(__file__).parent.parent
+        self.storage_path = project_root / "data" / "audit_chain.json"
+        logger.info(f"Audit chain storage initialized at: {self.storage_path.absolute()}")
+        self._ensure_storage_exists()
+        self._load_from_file()
+    
+    def _ensure_storage_exists(self):
+        """Create storage file if it doesn't exist"""
+        self.storage_path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.storage_path.exists():
+            initial_data = {
+                "tenant_id": "visa",
+                "chain": []
+            }
+            with open(self.storage_path, 'w') as f:
+                json.dump(initial_data, f, indent=2)
+            logger.info(f"Created new audit chain storage at: {self.storage_path.absolute()}")
+    
+    def _load_from_file(self):
+        """Load existing audit chain from file"""
+        try:
+            with open(self.storage_path, 'r') as f:
+                data = json.load(f)
+                for node_dict in data.get("chain", []):
+                    node = AuditChainNode(**node_dict)
+                    self.chain_store.append(node)
+            logger.info(f"Loaded {len(self.chain_store)} audit chain nodes from file")
+        except Exception as e:
+            logger.error(f"Error loading audit chain from file: {e}")
+    
+    def _save_to_file(self):
+        """Save audit chain to file"""
+        try:
+            data = {
+                "tenant_id": "visa",
+                "chain": [node.model_dump(mode='json') for node in self.chain_store]
+            }
+            with open(self.storage_path, 'w') as f:
+                json.dump(data, f, indent=2, default=str)
+            logger.info(f"Saved {len(self.chain_store)} audit chain nodes to {self.storage_path.absolute()}")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving audit chain to file: {e}")
+            return False
     
     def compute_hash(self, data: str) -> str:
         """Compute SHA256 hash"""
@@ -54,6 +114,10 @@ class AuditChainService:
         # Add to chain
         self.chain_store.append(node)
         
+        # Persist to file
+        self._save_to_file()
+        
+        logger.info(f"Appended node to audit chain: {evidence.evidence_id}")
         return node
     
     def get_latest_node(self) -> Optional[AuditChainNode]:
