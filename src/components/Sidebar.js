@@ -10,7 +10,7 @@ const Sidebar = () => {
     { path: '/monitoring', icon: Radio, label: 'Live Monitoring' },
     { path: '/compliance-query', icon: MessageSquare, label: 'Ask Compliance AI', featured: true },
     { path: '/multi-regulation-test', icon: Shield, label: 'Multi-Regulation Scanner' },
-    { path: '/remediation', icon: Wrench, label: 'Remediation & Actions' },
+    // { path: '/remediation', icon: Wrench, label: 'Remediation & Actions' },
     { path: '/evidence', icon: FolderOpen, label: 'Evidence & Audit Trail' },
     { path: '/agents', icon: Bot, label: 'Agent Activity' },
     { path: '/violation-analysis', icon: Sparkles, label: 'AI Violation Analysis' },

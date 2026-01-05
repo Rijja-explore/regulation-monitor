@@ -185,7 +185,7 @@ function App() {
               <Route path="/" element={<ComplianceOverview />} />
               <Route path="/goal-graph" element={<GoalGraph />} />
               <Route path="/monitoring" element={<LiveMonitoring />} />
-              <Route path="/remediation" element={<Remediation />} />
+              {/* <Route path="/remediation" element={<Remediation />} /> */}
               <Route path="/evidence" element={<Evidence />} />
               <Route path="/agents" element={<AgentActivity />} />
               <Route path="/violation-analysis" element={<ViolationAnalysis />} />

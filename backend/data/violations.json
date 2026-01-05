@@ -610,6 +610,126 @@
       "regulation": "CCPA",
       "description": "CCPA violation: ['ssn']",
       "timestamp": "2026-01-04T23:49:45.409000Z"
+    },
+    {
+      "violation_id": "COMP-062-0A6745",
+      "evidence_id": "N/A",
+      "source_type": "support_chat",
+      "source_id": "chat_1767574123",
+      "severity": "None",
+      "regulation": "Multi-Regulation Scan",
+      "description": "No violations detected - Content is compliant",
+      "timestamp": "2026-01-05T00:48:43.683000Z"
+    },
+    {
+      "violation_id": "VIOL-063-733560",
+      "evidence_id": "EVID-1767574253-112691",
+      "source_type": "support_chat",
+      "source_id": "chat_1767574253",
+      "severity": "CRITICAL",
+      "regulation": "PCI-DSS",
+      "description": "PAN (Primary Account Number) exposed in plaintext",
+      "timestamp": "2026-01-05T00:50:53.696000Z"
+    },
+    {
+      "violation_id": "VIOL-064-F243C7",
+      "evidence_id": "EVID-1767574816-4AB656",
+      "source_type": "support_chat",
+      "source_id": "chat_1767574816",
+      "severity": "CRITICAL",
+      "regulation": "PCI-DSS",
+      "description": "PAN (Primary Account Number) exposed in plaintext",
+      "timestamp": "2026-01-05T01:00:16.667000Z"
+    },
+    {
+      "violation_id": "VIOL-065-257151",
+      "evidence_id": "EVID-1767575239-373CAF",
+      "source_type": "support_chat",
+      "source_id": "chat_1767575239",
+      "severity": "HIGH",
+      "regulation": "GDPR",
+      "description": "IP address(es) exposed: 1 found",
+      "timestamp": "2026-01-05T01:07:19.271000Z"
+    },
+    {
+      "violation_id": "VIOL-066-8D7542",
+      "evidence_id": "EVID-1767578147-835E4B",
+      "source_type": "support_chat",
+      "source_id": "chat_1767578147",
+      "severity": "HIGH",
+      "regulation": "GDPR",
+      "description": "Phone number(s) exposed: 1 found",
+      "timestamp": "2026-01-05T01:55:47.854000Z"
+    },
+    {
+      "violation_id": "VIOL-067-1F782E",
+      "evidence_id": "EVID-1767578190-B306A2",
+      "source_type": "support_chat",
+      "source_id": "multi_1767578190954",
+      "severity": "HIGH",
+      "regulation": "GDPR",
+      "description": "GDPR violation: ['phone_numbers']",
+      "timestamp": "2026-01-05T01:56:30.954000Z"
+    },
+    {
+      "violation_id": "VIOL-068-7E409E",
+      "evidence_id": "EVID-1767578335-1CA3C2",
+      "source_type": "support_chat",
+      "source_id": "multi_1767578335915",
+      "severity": "CRITICAL",
+      "regulation": "PCI-DSS",
+      "description": "PCI-DSS violation: ['pan']",
+      "timestamp": "2026-01-05T01:58:55.915000Z"
+    },
+    {
+      "violation_id": "VIOL-069-E9D83A",
+      "evidence_id": "EVID-1767578335-F7DB77",
+      "source_type": "support_chat",
+      "source_id": "multi_1767578335915",
+      "severity": "HIGH",
+      "regulation": "GDPR",
+      "description": "GDPR violation: ['emails', 'ip_addresses']",
+      "timestamp": "2026-01-05T01:58:55.915000Z"
+    },
+    {
+      "violation_id": "VIOL-070-A61D34",
+      "evidence_id": "EVID-1767578335-371BAC",
+      "source_type": "support_chat",
+      "source_id": "multi_1767578335915",
+      "severity": "HIGH",
+      "regulation": "CCPA",
+      "description": "CCPA violation: ['ssn']",
+      "timestamp": "2026-01-05T01:58:55.915000Z"
+    },
+    {
+      "violation_id": "VIOL-071-95E6C3",
+      "evidence_id": "EVID-1767578440-7F92E6",
+      "source_type": "support_chat",
+      "source_id": "test_evidence_123",
+      "severity": "CRITICAL",
+      "regulation": "PCI-DSS",
+      "description": "PAN (Primary Account Number) exposed in plaintext",
+      "timestamp": "2026-01-05T12:21:00Z"
+    },
+    {
+      "violation_id": "VIOL-072-5A2BBC",
+      "evidence_id": "EVID-1767578739-8D1053",
+      "source_type": "support_chat",
+      "source_id": "multi_1767578739898",
+      "severity": "HIGH",
+      "regulation": "CCPA",
+      "description": "CCPA violation: ['drivers_license']",
+      "timestamp": "2026-01-05T02:05:39.898000Z"
+    },
+    {
+      "violation_id": "VIOL-073-E448BF",
+      "evidence_id": "EVID-1767578908-D17847",
+      "source_type": "support_chat",
+      "source_id": "final_test_1767578908",
+      "severity": "CRITICAL",
+      "regulation": "PCI-DSS",
+      "description": "PAN (Primary Account Number) exposed in plaintext",
+      "timestamp": "2026-01-05T02:08:28.153000Z"
     }
   ]
 }

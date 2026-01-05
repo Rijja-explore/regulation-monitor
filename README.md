@@ -272,7 +272,6 @@ View real-time activity of autonomous compliance agents.
 - **Monitoring Agent** - Scans data sources for violations
 - **Evidence Agent** - Collects and chains proof
 - **Cognitive Agent** - Analyzes violations with AI
-- **Remediation Agent** - Generates and tracks fixes
 
 ---
 
