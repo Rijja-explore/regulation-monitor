@@ -8,7 +8,7 @@ from typing import Optional, List, Literal
 
 class IngestRequest(BaseModel):
     """Data ingestion request model"""
-    source_type: Literal["transaction", "application_log", "support_chat", "message"]
+    source_type: Literal["transaction", "application_log", "support_chat", "message", "email", "database", "api_request"]
     source_id: str = Field(..., description="Unique identifier for the source")
     content: str = Field(..., description="Text content to analyze")
     timestamp: datetime = Field(..., description="ISO-8601 timestamp of the event")

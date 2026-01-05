@@ -1,9 +1,10 @@
 """
-PAN (Primary Account Number) detection engine
-Deterministic regex-based detection with Luhn validation
+Multi-Regulation Violation Detection Engine
+Supports PCI-DSS (PAN), GDPR (PII), CCPA (Personal Info)
+Deterministic regex-based detection with validation
 """
 import re
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 
 
 class PANDetector:
@@ -87,3 +88,89 @@ class PANDetector:
                 valid_pans.append(match)
         
         return valid_pans
+
+
+class GDPRDetector:
+    """Detects GDPR-relevant PII (emails, phone numbers, IP addresses)"""
+    
+    EMAIL_PATTERN = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+    PHONE_PATTERN = re.compile(r'\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b')
+    IP_PATTERN = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
+    
+    def detect(self, text: str) -> Optional[Dict[str, Any]]:
+        """Detect GDPR-relevant PII in text"""
+        findings = {}
+        
+        emails = self.EMAIL_PATTERN.findall(text)
+        if emails:
+            findings['emails'] = emails
+        
+        phones = self.PHONE_PATTERN.findall(text)
+        if phones:
+            findings['phone_numbers'] = phones
+        
+        ips = self.IP_PATTERN.findall(text)
+        if ips:
+            findings['ip_addresses'] = ips
+        
+        return findings if findings else None
+
+
+class CCPADetector:
+    """Detects CCPA-relevant personal information"""
+    
+    SSN_PATTERN = re.compile(r'\b\d{3}-\d{2}-\d{4}\b')
+    DL_PATTERN = re.compile(r'\b[A-Z]{1,2}\d{5,8}\b')  # Driver's license
+    
+    def detect(self, text: str) -> Optional[Dict[str, Any]]:
+        """Detect CCPA-relevant personal information"""
+        findings = {}
+        
+        ssns = self.SSN_PATTERN.findall(text)
+        if ssns:
+            findings['ssn'] = ssns
+        
+        dl_numbers = self.DL_PATTERN.findall(text)
+        if dl_numbers:
+            findings['drivers_license'] = dl_numbers
+        
+        return findings if findings else None
+
+
+class MultiRegulationDetector:
+    """Unified detector for all regulations"""
+    
+    def __init__(self):
+        self.pan_detector = PANDetector()
+        self.gdpr_detector = GDPRDetector()
+        self.ccpa_detector = CCPADetector()
+    
+    def detect_all(self, text: str) -> Dict[str, Any]:
+        """
+        Detect violations across all regulations
+        
+        Returns dict with structure:
+        {
+            'PCI-DSS': { 'pan': '4111...' },
+            'GDPR': { 'emails': [...], 'phones': [...] },
+            'CCPA': { 'ssn': [...] }
+        }
+        """
+        results = {}
+        
+        # PCI-DSS (PAN detection)
+        pan = self.pan_detector.detect(text)
+        if pan:
+            results['PCI-DSS'] = {'pan': pan, 'severity': 'CRITICAL'}
+        
+        # GDPR (PII detection)
+        gdpr_findings = self.gdpr_detector.detect(text)
+        if gdpr_findings:
+            results['GDPR'] = {**gdpr_findings, 'severity': 'HIGH'}
+        
+        # CCPA (Personal info detection)
+        ccpa_findings = self.ccpa_detector.detect(text)
+        if ccpa_findings:
+            results['CCPA'] = {**ccpa_findings, 'severity': 'HIGH'}
+        
+        return results

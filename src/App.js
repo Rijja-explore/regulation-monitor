@@ -9,6 +9,8 @@ import Remediation from './pages/Remediation';
 import Evidence from './pages/Evidence';
 import AgentActivity from './pages/AgentActivity';
 import ViolationAnalysis from './pages/ViolationAnalysis';
+import ComplianceQuery from './pages/ComplianceQuery';
+import MultiRegulationTest from './pages/MultiRegulationTest';
 
 function App() {
   return (
@@ -187,6 +189,8 @@ function App() {
               <Route path="/evidence" element={<Evidence />} />
               <Route path="/agents" element={<AgentActivity />} />
               <Route path="/violation-analysis" element={<ViolationAnalysis />} />
+              <Route path="/compliance-query" element={<ComplianceQuery />} />
+              <Route path="/multi-regulation-test" element={<MultiRegulationTest />} />
             </Routes>
           </motion.div>
         </main>

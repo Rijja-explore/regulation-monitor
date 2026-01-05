@@ -47,6 +47,12 @@ class ViolationStore:
         count = len(self.list_violations()) + 1
         return f"VIOL-{count:03d}-{unique_id}"
     
+    def generate_compliant_id(self) -> str:
+        """Generate unique compliant record ID"""
+        unique_id = str(uuid.uuid4().hex[:6].upper())
+        count = len(self.list_violations()) + 1
+        return f"COMP-{count:03d}-{unique_id}"
+    
     def add_violation(
         self,
         evidence_id: str,
@@ -95,6 +101,47 @@ class ViolationStore:
         self._write_violations(data)
         
         return violation
+    
+    def add_compliant_record(
+        self,
+        source_type: str,
+        source_id: str,
+        timestamp: datetime
+    ) -> ViolationRecord:
+        """
+        Add a compliant (no violation) record to the store
+        
+        Args:
+            source_type: Type of source (transaction, log, etc.)
+            source_id: Source identifier
+            timestamp: Event timestamp
+            
+        Returns:
+            ViolationRecord object for compliant scan
+        """
+        compliant_id = self.generate_compliant_id()
+        
+        compliant_record = ViolationRecord(
+            violation_id=compliant_id,
+            evidence_id="N/A",
+            source_type=source_type,
+            source_id=source_id,
+            severity="None",
+            regulation="Multi-Regulation Scan",
+            description="No violations detected - Content is compliant",
+            timestamp=timestamp
+        )
+        
+        # Read current data
+        data = self._read_violations()
+        
+        # Append compliant record
+        data["violations"].append(compliant_record.model_dump(mode='json'))
+        
+        # Write back
+        self._write_violations(data)
+        
+        return compliant_record
     
     def list_violations(self) -> List[ViolationRecord]:
         """

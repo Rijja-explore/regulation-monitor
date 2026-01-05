@@ -107,6 +107,8 @@ Article 32 - Security of processing
 
 Personal data must be encrypted in transit and at rest. Access controls must be implemented. Regular security assessments are required.
 
+Personal identifiers including email addresses, phone numbers, and IP addresses are considered personal data under GDPR. These identifiers should not be stored in application logs in plaintext without a legitimate processing basis and appropriate safeguards. When logging is necessary for security or debugging purposes, personal identifiers must be pseudonymized, hashed, or masked to protect individual privacy.
+
 Article 33 - Notification of a personal data breach to the supervisory authority
 
 (1) In the case of a personal data breach, the controller shall without undue delay and, where feasible, not later than 72 hours after having become aware of it, notify the personal data breach to the supervisory authority.
@@ -194,6 +196,18 @@ PAN must never appear in:
 - System monitoring dashboards
 
 When PAN must be displayed for legitimate business purposes, only the last 4 digits may be shown. Full PAN must be masked as: ****-****-****-1234
+
+1.3 Personal Identifiable Information (PII) Handling
+
+Personal identifiers including email addresses, phone numbers, social security numbers, and IP addresses are classified as CONFIDENTIAL or RESTRICTED depending on context.
+
+Phone numbers, email addresses, and other PII should not be stored in application logs without explicit business justification and appropriate controls. When logging is necessary for debugging or security purposes:
+- Personal identifiers must be masked or hashed
+- Logs containing PII must be encrypted
+- Access to such logs must be restricted and audited
+- Retention period must be minimized (maximum 90 days unless legally required)
+
+Best practice: Use tokenization or pseudonymization for customer identifiers in logs rather than actual phone numbers or email addresses.
 
 2. DATA RETENTION AND DELETION
 

@@ -294,3 +294,22 @@ async def complete_workflow(violation: ViolationInput, auto_remediate: bool = Tr
     except Exception as e:
         logger.error(f"❌ Workflow failed: {e}")
         raise HTTPException(status_code=500, detail=f"Workflow failed: {str(e)}")
+
+
+@router.get("/activity")
+async def get_agent_activity():
+    """
+    Get recent agent activity
+    
+    Returns activity log from cognitive agent
+    """
+    try:
+        # Return last 50 activities
+        recent_activities = activity_log[-50:] if len(activity_log) > 50 else activity_log
+        return {
+            "count": len(recent_activities),
+            "activities": [act.model_dump() for act in reversed(recent_activities)]
+        }
+    except Exception as e:
+        logger.error(f"❌ Activity retrieval failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Activity retrieval failed: {str(e)}")

@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Network, Radio, Wrench, FolderOpen, Bot, Sparkles, Zap } from 'lucide-react';
+import { Home, Network, Radio, Wrench, FolderOpen, Bot, Sparkles, Zap, MessageSquare, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Sidebar = () => {
@@ -8,6 +8,8 @@ const Sidebar = () => {
     { path: '/', icon: Home, label: 'Compliance Overview' },
     { path: '/goal-graph', icon: Network, label: 'Compliance Goal Graph' },
     { path: '/monitoring', icon: Radio, label: 'Live Monitoring' },
+    { path: '/compliance-query', icon: MessageSquare, label: 'Ask Compliance AI', featured: true },
+    { path: '/multi-regulation-test', icon: Shield, label: 'Multi-Regulation Scanner' },
     { path: '/remediation', icon: Wrench, label: 'Remediation & Actions' },
     { path: '/evidence', icon: FolderOpen, label: 'Evidence & Audit Trail' },
     { path: '/agents', icon: Bot, label: 'Agent Activity' },
@@ -83,13 +85,20 @@ const Sidebar = () => {
                   to={item.path}
                   end={item.path === '/'}
                   className={({ isActive }) =>
-                    `flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 border-2 ${
+                    `flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-300 border-2 relative ${
                       isActive
                         ? 'bg-gradient-to-r from-visa-blue to-visa-orange text-white border-transparent shadow-lg'
                         : 'text-text-primary hover:text-visa-blue border-transparent hover:border-visa-blue hover:bg-bg-card'
-                    }`
+                    } ${item.featured ? 'ring-2 ring-visa-orange ring-offset-2' : ''}`
                   }
                 >
+                  {item.featured && (
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-3 h-3 bg-visa-orange rounded-full"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                  )}
                   <Icon size={22} />
                   <span className="text-sm font-bold">{item.label}</span>
                 </NavLink>

@@ -1,77 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Clock, MoreHorizontal } from 'lucide-react';
+import { Activity, Clock, MoreHorizontal, RefreshCw } from 'lucide-react';
+import api from '../services/api';
 
 const AgentActivity = () => {
-  const agents = [
-    {
-      id: 1,
-      name: 'Regulation Agent',
-      status: 'active',
-      description: 'Monitors regulatory updates and maps requirements to internal controls',
-      lastAction: 'Detected PCI-DSS clause update',
-      lastActionTime: '2 hours ago',
-      tasksToday: 47,
-    },
-    {
-      id: 2,
-      name: 'Policy Agent',
-      status: 'waiting',
-      description: 'Maintains and updates compliance policies based on regulatory changes',
-      lastAction: 'Found missing control in data handling',
-      lastActionTime: '3 hours ago',
-      tasksToday: 23,
-    },
-    {
-      id: 3,
-      name: 'Monitoring Agent',
-      status: 'active',
-      description: 'Continuously scans data sources for compliance violations',
-      lastAction: 'Flagged violation in support ticket',
-      lastActionTime: '1 hour ago',
-      tasksToday: 1247,
-    },
-    {
-      id: 4,
-      name: 'Remediation Agent',
-      status: 'active',
-      description: 'Proposes and executes compliance remediation actions',
-      lastAction: 'Proposed fix for PAN exposure',
-      lastActionTime: '30 minutes ago',
-      tasksToday: 12,
-    },
-  ];
+  const [agents, setAgents] = useState([]);
+  const [recentDecisions, setRecentDecisions] = useState([]);
+  const [summary, setSummary] = useState({
+    active_agents: 0,
+    total_tasks_today: 0,
+    recent_decisions: 0,
+    system_uptime: 99.8,
+    health_status: 'All systems operational'
+  });
+  const [instructions, setInstructions] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdate, setLastUpdate] = useState(null);
 
-  const recentDecisions = [
-    {
-      agent: 'Monitoring Agent',
-      decision:
-        'Detected PCI clause update → mapped to missing control → escalated risk to Remediation Agent',
-      timestamp: '14:32',
-      impact: 'Critical',
-    },
-    {
-      agent: 'Remediation Agent',
-      decision:
-        'Analyzed PAN exposure → proposed masking solution → initiated automated remediation',
-      timestamp: '14:35',
-      impact: 'High',
-    },
-    {
-      agent: 'Policy Agent',
-      decision:
-        'Reviewed data retention requirements → identified policy gap → generated update recommendation',
-      timestamp: '13:15',
-      impact: 'Medium',
-    },
-    {
-      agent: 'Regulation Agent',
-      decision:
-        'Scanned GDPR amendments → no changes affecting current compliance state → continued monitoring',
-      timestamp: '12:00',
-      impact: 'Low',
-    },
-  ];
+  const loadAgentStatus = async () => {
+    try{
+      setLoading(true);
+      const data = await api.getAgentStatus();
+      setAgents(data.agents || []);
+      setRecentDecisions(data.decisions || []);
+      setSummary(data.summary || summary);
+      setInstructions(data.instructions || null);
+      setLastUpdate(new Date());
+    } catch (error) {
+      console.error('Failed to load agent status:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAgentStatus();
+    
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(loadAgentStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const getStatusIndicator = (status) => {
     if (status === 'active') {
@@ -139,7 +107,44 @@ const AgentActivity = () => {
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="p-8 space-y-6"
     >
-      <h2 className="text-2xl font-semibold text-text-primary">Agent Activity</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-text-primary">Agent Activity</h2>
+        <div className="flex items-center gap-3">
+          {lastUpdate && (
+            <span className="text-sm text-text-secondary">
+              Last updated: {lastUpdate.toLocaleTimeString()}
+            </span>
+          )}
+          <button
+            onClick={loadAgentStatus}
+            disabled={loading}
+            className="flex items-center gap-2 px-4 py-2 bg-visa-blue text-white rounded-lg hover:bg-opacity-90 transition-all disabled:opacity-50"
+          >
+            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+            Refresh
+          </button>
+        </div>
+      </div>
+
+      {/* Instructions Banner (shown when agents are idle) */}
+      {instructions && summary.active_agents === 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-visa-blue to-accent-blue rounded-lg p-6 text-white"
+        >
+          <h3 className="text-lg font-bold mb-2">🚀 How to Activate Agents</h3>
+          <p className="text-sm mb-4 opacity-90">{instructions.how_to_activate}</p>
+          <div className="bg-white bg-opacity-10 rounded-lg p-4">
+            <p className="text-sm font-semibold mb-2">Try these sample violations:</p>
+            <ul className="text-sm space-y-1 opacity-90">
+              {instructions.sample_violations?.map((sample, idx) => (
+                <li key={idx}>• {sample}</li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+      )}
 
       {/* Agent List */}
       <div className="grid grid-cols-2 gap-6">
@@ -237,28 +242,36 @@ const AgentActivity = () => {
       </div>
 
       {/* Agent System Health */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-bg-card rounded-lg p-4">
-          <div className="text-2xl font-bold text-risk-green">
-            {agents.filter((a) => a.status === 'active').length}
-          </div>
-          <div className="text-sm text-text-secondary">Active Agents</div>
+      <div className="bg-bg-card rounded-lg p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-text-primary">System Health</h3>
+          <span className="px-3 py-1 bg-risk-green text-white text-sm font-medium rounded-full">
+            {summary.health_status || 'Operational'}
+          </span>
         </div>
-        <div className="bg-bg-card rounded-lg p-4">
-          <div className="text-2xl font-bold text-text-primary">
-            {agents.reduce((sum, a) => sum + a.tasksToday, 0)}
+        <div className="grid grid-cols-4 gap-4">
+          <div className="bg-bg-primary rounded-lg p-4">
+            <div className="text-2xl font-bold text-risk-green">
+              {summary.active_agents}
+            </div>
+            <div className="text-sm text-text-secondary">Active Agents</div>
           </div>
-          <div className="text-sm text-text-secondary">Total Tasks Today</div>
-        </div>
-        <div className="bg-bg-card rounded-lg p-4">
-          <div className="text-2xl font-bold text-text-primary">
-            {recentDecisions.length}
+          <div className="bg-bg-primary rounded-lg p-4">
+            <div className="text-2xl font-bold text-text-primary">
+              {summary.total_tasks_today}
+            </div>
+            <div className="text-sm text-text-secondary">Total Tasks Today</div>
           </div>
-          <div className="text-sm text-text-secondary">Recent Decisions</div>
-        </div>
-        <div className="bg-bg-card rounded-lg p-4">
-          <div className="text-2xl font-bold text-risk-green">99.8%</div>
-          <div className="text-sm text-text-secondary">System Uptime</div>
+          <div className="bg-bg-primary rounded-lg p-4">
+            <div className="text-2xl font-bold text-text-primary">
+              {summary.recent_decisions}
+            </div>
+            <div className="text-sm text-text-secondary">Recent Decisions</div>
+          </div>
+          <div className="bg-bg-primary rounded-lg p-4">
+            <div className="text-2xl font-bold text-risk-green">{summary.system_uptime}%</div>
+            <div className="text-sm text-text-secondary">System Uptime</div>
+          </div>
         </div>
       </div>
     </motion.div>

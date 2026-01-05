@@ -59,11 +59,14 @@ export async function detectViolation(content, source_type = 'support_chat', sou
   const sourceTypeMap = {
     'SUPPORT_TICKET': 'support_chat',
     'LOG_FILE': 'application_log',
-    'EMAIL': 'message',
+    'EMAIL': 'email',
+    'DATABASE_RECORD': 'database',
+    'API_REQUEST': 'api_request',
+    'CHAT_MESSAGE': 'support_chat',
     'TRANSACTION': 'transaction'
   };
   
-  const mappedSourceType = sourceTypeMap[source_type] || source_type;
+  const mappedSourceType = sourceTypeMap[source_type] || source_type.toLowerCase();
   
   return fetchAPI('/monitor/ingest', {
     method: 'POST',
@@ -89,6 +92,21 @@ export async function getViolations() {
  */
 export async function getMonitoringStats() {
   return fetchAPI('/monitor/stats');
+}
+
+/**
+ * Scan content across multiple regulations
+ */
+export async function scanMultiRegulation(content, source_type = 'support_chat', source_id = null) {
+  return fetchAPI('/monitor/scan-multi', {
+    method: 'POST',
+    body: JSON.stringify({
+      content,
+      source_type,
+      source_id: source_id || `multi_${Date.now()}`,
+      timestamp: new Date().toISOString()
+    }),
+  });
 }
 
 // ============= Cognitive Agent APIs =============
@@ -163,6 +181,13 @@ export async function getAuditBundle(evidenceId) {
   return fetchAPI(`/audit/bundle/${evidenceId}`);
 }
 
+/**
+ * Get agent status and activity
+ */
+export async function getAgentStatus() {
+  return fetchAPI('/agents/status');
+}
+
 // Export all as named exports for convenience
 const api = {
   checkHealth,
@@ -170,6 +195,7 @@ const api = {
   detectViolation,
   getViolations,
   getMonitoringStats,
+  scanMultiRegulation,
   analyzeViolation,
   getRemediation,
   getReasoningHistory,
@@ -179,6 +205,7 @@ const api = {
   getAuditChain,
   verifyAuditChain,
   getAuditBundle,
+  getAgentStatus,
 };
 
 export default api;
