@@ -21,7 +21,6 @@ const Remediation = () => {
   useEffect(() => {
     loadRemediationData();
     
-    // Auto-refresh every 10 seconds
     const interval = setInterval(loadRemediationData, 10000);
     return () => clearInterval(interval);
   }, []);

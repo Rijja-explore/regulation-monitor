@@ -1,26 +1,26 @@
 # ATLAS - Autonomous Compliance Intelligence Platform
 
 **A**utonomous **T**rust **L**ayer for **A**gent **S**ystems  
-Multi-Regulation Compliance Monitoring with AI-Powered Analysis
+Enterprise-Grade Multi-Regulation Compliance Monitoring with AI-Powered Analysis
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Python](https://img.shields.io/badge/python-3.10+-blue) ![React](https://img.shields.io/badge/react-19.2.3-blue)
+![Version](https://img.shields.io/badge/version-1.0.0-blue) ![Python](https://img.shields.io/badge/python-3.10+-blue) ![React](https://img.shields.io/badge/react-19.2.3-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Status](https://img.shields.io/badge/status-production--ready-brightgreen)
 
 ---
 
 ## 🎯 Overview
 
-ATLAS is an autonomous compliance monitoring system that detects, analyzes, and remediates regulatory violations across **PCI-DSS**, **GDPR**, and **CCPA** frameworks in real-time. It combines pattern-based detection, AI-powered analysis via OpenRouter, and cryptographic evidence chains to provide comprehensive compliance assurance.
+**ATLAS** is an enterprise-grade autonomous compliance monitoring system engineered to identify **PCI-DSS**, **GDPR**, and **CCPA** violations from real-time textual data streams. The platform delivers advanced AI-assisted violation reasoning and remediation workflows through sophisticated LLM-based RAG pipelines and vector search capabilities, while maintaining tamper-proof audit trails via cryptographic hash-chain evidence layers.
 
-### Key Features
+### Core Capabilities
 
-✅ **Multi-Regulation Detection** - Simultaneous scanning for PCI-DSS, GDPR, and CCPA violations  
-✅ **AI-Powered Analysis** - OpenRouter LLM integration for intelligent violation reasoning  
-✅ **Natural Language Queries** - Ask compliance questions in plain English  
-✅ **Evidence Chain** - Cryptographic hash-chain for immutable audit trails  
-✅ **Real-time Monitoring** - Live ingestion from multiple data sources  
-✅ **Automated Remediation** - AI-generated fix suggestions and action plans  
-✅ **Analytics Dashboard** - Risk heatmaps, severity tracking, and statistics  
-✅ **Autonomous Agents** - Self-orchestrating compliance workflows  
+🔹 **Multi-Regulation Detection Engine** - Simultaneous real-time scanning for PCI-DSS, GDPR, and CCPA violations with pattern recognition and Luhn validation  
+🔹 **AI-Powered Analysis & Reasoning** - Advanced violation analysis through OpenRouter LLM integration with contextual understanding  
+🔹 **Natural Language Compliance Queries** - Interactive compliance assistant supporting plain English regulatory questions  
+🔹 **Cryptographic Evidence Chain** - Tamper-proof audit trails using SHA-256 cryptographic hash-chains for regulatory traceability  
+🔹 **Real-time Data Stream Monitoring** - Continuous ingestion and analysis from multiple structured and unstructured data sources  
+🔹 **Autonomous Remediation Workflows** - AI-generated remediation suggestions and automated action plans  
+🔹 **Interactive Risk Analytics Dashboard** - Comprehensive React-based interface with risk heatmaps, severity tracking, and violation analytics  
+🔹 **Agent Activity Monitoring** - Real-time visibility into autonomous compliance agent operations and decision-making processes  
 
 ---
 
@@ -28,250 +28,302 @@ ATLAS is an autonomous compliance monitoring system that detects, analyzes, and 
 
 ### Technology Stack
 
-**Backend:**
-- FastAPI 0.115.0 - High-performance async API framework
-- ChromaDB 0.5.11 - Vector database for RAG
-- Sentence Transformers 2.3.1 - Embeddings generation
-- OpenAI/Anthropic SDKs - LLM integrations
-- Pydantic 2.8.0 - Data validation
+### Enterprise Architecture
 
-**Frontend:**
-- React 19.2.3 - UI framework
-- React Router 7.11.0 - Navigation
-- Framer Motion 12.23.26 - Animations
-- Lucide React - Icon library
-- Recharts 3.6.0 - Data visualization
+**Backend Infrastructure:**
+- FastAPI 0.115.0 - High-performance async REST API framework with automatic OpenAPI documentation
+- ChromaDB 0.5.11 - Production-grade vector database for semantic search and RAG operations
+- Sentence Transformers 2.3.1 - State-of-the-art embedding generation for regulatory document analysis
+- OpenAI/Anthropic SDKs - Enterprise LLM integrations with fallback mechanisms
+- Pydantic 2.8.0 - Type-safe data validation and serialization
 
-### System Components
+**Frontend Platform:**
+- React 19.2.3 - Modern component-based UI framework with hooks and functional components
+- React Router 7.11.0 - Client-side routing with code splitting and lazy loading
+- Framer Motion 12.23.26 - Professional animations and micro-interactions
+- Lucide React - Consistent enterprise icon library
+- Recharts 3.6.0 - Advanced data visualization and interactive charts
+
+### System Architecture Overview
 
 ```
-Backend (Port 8000)
+Enterprise Backend (Port 8000)              Interactive Frontend (Port 3000)
 ├── Monitoring Agent       → Real-time violation detection (PCI-DSS, GDPR, CCPA)
 ├── Cognitive Agent        → AI analysis & remediation (OpenRouter LLM)
 ├── Evidence Layer         → Cryptographic audit trail (Hash-chain)
 ├── RAG Service            → Regulatory knowledge base (Vector search)
 └── API Layer              → RESTful endpoints (FastAPI)
 
-Frontend (Port 3000)
-├── Compliance Overview    → Dashboard with risk heatmaps
-├── Multi-Regulation Test  → Interactive scanner
-├── Compliance Query       → AI chat interface
-├── Live Monitoring        → Real-time ingestion
-├── Violation Analysis     → AI-powered insights
-├── Evidence Viewer        → Audit trail explorer
-└── Agent Activity         → Autonomous agent logs
+React Dashboard Applications:
+├── Compliance Overview    → Executive dashboard with risk heatmaps
+├── Multi-Regulation Test  → Interactive violation scanner
+├── Compliance Query       → AI-powered chat interface
+├── Live Monitoring        → Real-time data ingestion
+├── Violation Analysis     → AI-powered insights and recommendations
+├── Evidence Viewer        → Cryptographic audit trail explorer
+└── Agent Activity         → Autonomous agent operation logs
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Enterprise Deployment Guide
 
-### Prerequisites
-- Python 3.10 or higher
-- Node.js 18 or higher
-- npm or yarn
-- OpenRouter API key (for AI features)
+### System Requirements
+- **Python:** 3.10 or higher (recommended: 3.11+)
+- **Node.js:** 18 LTS or higher (recommended: 20+)
+- **Package Manager:** npm 9+ or yarn 1.22+
+- **API Access:** OpenRouter API key for enterprise LLM features
+- **Memory:** Minimum 4GB RAM, recommended 8GB+
+- **Storage:** 2GB free space for vector database and audit logs
 
-### Installation & Setup
+### Production Installation
 
-#### 1. Clone and Install
+#### 1. Repository Setup & Dependencies
 
 ```bash
-# Clone repository
+# Clone the enterprise repository
 git clone <repository-url>
 cd mergeconflicts
 
-# Backend setup
+# Backend environment setup
 cd backend
 python -m venv venv
 
 # Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
+# Windows PowerShell:
+venv\Scripts\Activate.ps1
+# Windows CMD:
+venv\Scripts\activate.bat
+# Linux/macOS:
 source venv/bin/activate
 
-# Install dependencies
+# Install production dependencies
 pip install -r requirements.txt
 
-# Frontend setup (from project root)
+# Frontend setup (return to project root)
 cd ..
-npm install
+npm ci  # Uses package-lock.json for reproducible builds
 ```
 
-#### 2. Environment Configuration
+#### 2. Enterprise Configuration
 
-Create `backend/.env`:
+**Backend Environment Configuration** (`backend/.env`):
 ```env
-OPENROUTER_API_KEY=your_openrouter_api_key_here
+# OpenRouter AI Configuration
+OPENROUTER_API_KEY=your_enterprise_openrouter_api_key
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 DEFAULT_MODEL=anthropic/claude-3.5-sonnet
+
+# Production Settings
+ENVIRONMENT=production
+LOG_LEVEL=INFO
+CORS_ORIGINS=["https://your-domain.com"]
 ```
 
-Create `.env.local` in project root:
+**Frontend Environment Configuration** (`.env.local`):
 ```env
+# API Configuration
 REACT_APP_API_BASE_URL=http://localhost:8000
+REACT_APP_ENVIRONMENT=production
+REACT_APP_VERSION=1.0.0
 ```
 
-#### 3. Start the Application
+#### 3. Service Startup
 
-**Terminal 1 - Backend:**
+**Backend API Server:**
 ```bash
 cd backend
-python -m uvicorn main:app --reload
+python -m uvicorn main_integrated:app --reload --host 0.0.0.0 --port 8000
 ```
-✅ Backend running at `http://localhost:8000`  
-📖 API docs at `http://localhost:8000/docs`
+✅ **Enterprise API:** `http://localhost:8000`  
+📋 **API Documentation:** `http://localhost:8000/docs` (Swagger UI)  
+🔧 **Health Check:** `http://localhost:8000/health`
 
-**Terminal 2 - Frontend:**
+**Frontend Dashboard:**
 ```bash
+# From project root
 npm start
 ```
-✅ Frontend running at `http://localhost:3000`
+✅ **Dashboard Interface:** `http://localhost:3000`  
+📊 **Interactive Analytics:** Full-featured compliance dashboard
 
 ---
 
-## 📖 User Guide
+## � Enterprise Feature Documentation
 
-### 1. Compliance Overview Dashboard
-**URL:** `http://localhost:3000/`
+### 1. Executive Compliance Dashboard
+**Access URL:** `http://localhost:3000/`
 
-- **Global Compliance Status** - Compliant/Non-Compliant indicator
-- **Multi-Regulation Risk Heatmap** - Violations by PCI-DSS, GDPR, CCPA, SOX
-- **Severity Distribution** - Critical, High, Medium counts with charts
-- **Key Active Risks** - Recent violations with AI analysis links
-- **Agent Activity Feed** - Real-time autonomous agent logs
-
----
-
-### 2. Multi-Regulation Scanner
-**URL:** `http://localhost:3000/multi-regulation-test`
-
-Interactive testing interface for all regulations. Click sample buttons to load test data:
-
-**PCI-DSS Sample:**
-```
-Transaction for card 4532-1234-5678-9010 was declined
-```
-
-**GDPR Sample:**
-```
-Contact: john.doe@example.com, Phone: +1-555-123-4567, IP: 192.168.1.100
-```
-
-**CCPA Sample:**
-```
-California resident SSN: 123-45-6789, Driver License: CA-D1234567
-```
-
-**Mixed Sample (All Regulations):**
-```
-Card 4111111111111111, Email: jane@example.com
-Phone: +44-20-7123-4567, SSN: 987-65-4321, IP: 10.0.0.1
-```
-
-**How to Use:**
-1. Click a sample button (PCI-DSS, GDPR, CCPA, or Mixed)
-2. Click "Scan All Regulations"
-3. View detected violations grouped by regulation
-4. Click "Download JSON" to export results
+**Executive Summary Features:**
+- **Global Compliance Status Indicator** - Real-time compliant/non-compliant status with confidence metrics
+- **Multi-Regulation Risk Heatmap** - Interactive visualization of violations across PCI-DSS, GDPR, CCPA, and SOX frameworks
+- **Severity Distribution Analytics** - Advanced charting of critical, high, and medium severity violations with trending analysis
+- **Active Risk Management Panel** - Real-time violation feed with AI-powered analysis links and remediation tracking
+- **Autonomous Agent Activity Dashboard** - Live operational logs of compliance agents with performance metrics
 
 ---
 
-### 3. Natural Language Compliance Assistant
-**URL:** `http://localhost:3000/compliance-query`
+### 2. Multi-Regulation Testing Interface
+**Access URL:** `http://localhost:3000/multi-regulation-test`
 
-Ask compliance questions in plain English using AI-powered RAG.
+**Advanced Testing Capabilities:**
+Interactive enterprise-grade testing suite supporting all regulatory frameworks. Features pre-configured compliance test scenarios:
 
-**Sample Questions:**
-- "What are the requirements for PCI-DSS compliance?"
-- "How should we handle GDPR data deletion requests?"
-- "What are CCPA consumer rights regarding personal data?"
-- "Explain the difference between PCI-DSS and GDPR"
+**Enterprise Test Data Samples:**
 
-**Features:**
-- Chat-style interface with message history
-- AI-powered responses using regulatory knowledge base
-- Sample question shortcuts for quick testing
-- Context-aware follow-up questions
+**PCI-DSS Violation Detection:**
+```
+Enterprise transaction: Card 4532-1234-5678-9010 processed with decline status
+```
 
----
+**GDPR Data Protection Violations:**
+```
+Customer record: john.doe@enterprise.com, Phone: +1-555-123-4567, IP: 192.168.1.100
+```
 
-### 4. Live Monitoring
-**URL:** `http://localhost:3000/monitoring`
+**CCPA Personal Information Violations:**
+```
+California resident data: SSN: 123-45-6789, Driver License: CA-D1234567
+```
 
-Real-time data ingestion and violation detection.
+**Multi-Regulation Comprehensive Test:**
+```
+Payment processing: Card 4111111111111111, Customer: jane@enterprise.com
+Contact: +44-20-7123-4567, SSN: 987-65-4321, Server IP: 10.0.0.1
+```
 
-**Source Types:**
-- **SUPPORT_TICKET** - Customer service interactions
-- **APPLICATION_LOG** - System logs
-- **TRANSACTION_DATA** - Payment processing
-- **EMAIL_CONTENT** - Email communications
-
-**How to Use:**
-1. Select source type from dropdown
-2. Paste or type data to scan
-3. Click "Scan for Violations"
-4. Review detected violations with severity levels
-5. System automatically creates evidence records
-
----
-
-### 5. AI Violation Analysis
-**URL:** `http://localhost:3000/violation-analysis`
-
-Deep AI analysis of compliance violations using OpenRouter LLM.
-
-**Analysis Includes:**
-- **Root Cause** - Why the violation occurred
-- **Impact Assessment** - Business, regulatory, and reputation risks
-- **Regulatory Penalties** - Potential fines (PCI-DSS: $5K-$100K/month, GDPR: €20M/4% revenue)
-- **Remediation Steps** - Specific actions to resolve
-- **Prevention Strategies** - Long-term solutions and best practices
-
-**How to Use:**
-1. Navigate to violation list
-2. Click "Analyze with AI" on any violation
-3. View comprehensive analysis
-4. Follow suggested remediation steps
+**Enterprise Testing Workflow:**
+1. Select enterprise test scenario from sample library
+2. Execute comprehensive multi-regulation analysis
+3. Review detailed violation reports with regulatory context
+4. Export compliance evidence in JSON format for audit trails
+5. Generate remediation recommendations with AI-powered insights
 
 ---
 
-### 6. Evidence & Audit Trail
-**URL:** `http://localhost:3000/evidence`
+### 3. AI-Powered Compliance Intelligence Assistant
+**Access URL:** `http://localhost:3000/compliance-query`
 
-Cryptographic hash-chain verification for immutable audit logs.
+**Advanced Natural Language Processing Capabilities:**
+Enterprise-grade AI assistant leveraging RAG (Retrieval Augmented Generation) architecture for intelligent compliance queries.
 
-**Features:**
-- Complete event log of all compliance activities
-- Hash-chain integrity verification (✅ or ❌)
-- Tamper detection via cryptographic linking
-- JSON export for compliance reports
+**Enterprise Query Examples:**
+- "What are the technical requirements for PCI-DSS Level 1 certification?"
+- "How should our organization implement GDPR Article 17 'Right to be Forgotten' procedures?"
+- "What are the specific CCPA disclosure requirements for third-party data sharing?"
+- "Compare PCI-DSS tokenization requirements with GDPR pseudonymization standards"
+- "What is our regulatory exposure for cross-border data transfers under current frameworks?"
 
-**Evidence Structure:**
+**Professional Features:**
+- **Contextual Chat Interface** - Maintains conversation history with regulatory context awareness
+- **RAG-Enhanced Responses** - Leverages comprehensive regulatory knowledge base with vector search
+- **Sample Query Library** - Pre-configured enterprise compliance scenarios for rapid assessment
+- **Follow-up Question Intelligence** - Context-aware recommendations for deeper compliance analysis
+- **Audit-Ready Documentation** - All queries and responses logged for compliance reporting
+
+---
+
+### 4. Real-time Data Stream Monitoring
+**Access URL:** `http://localhost:3000/monitoring`
+
+**Enterprise Data Ingestion Engine:**
+Continuous monitoring and analysis of structured and unstructured data sources with real-time violation detection.
+
+**Supported Enterprise Data Sources:**
+- **SUPPORT_TICKET** - Customer service interactions and helpdesk communications
+- **APPLICATION_LOG** - System logs, application events, and debug information  
+- **TRANSACTION_DATA** - Payment processing, financial transactions, and commerce data
+- **EMAIL_CONTENT** - Internal and external email communications with PII scanning
+
+**Enterprise Monitoring Workflow:**
+1. **Data Source Configuration** - Select from enterprise data source taxonomy
+2. **Real-time Data Ingestion** - Stream or batch upload structured/unstructured content
+3. **Multi-Regulation Analysis** - Simultaneous scanning across all regulatory frameworks
+4. **Violation Classification** - Automated severity assessment with regulatory context
+5. **Evidence Chain Creation** - Automatic generation of cryptographic audit records
+6. **Alert Generation** - Real-time notifications with remediation recommendations
+
+---
+
+### 5. Advanced AI Violation Analysis Engine
+**Access URL:** `http://localhost:3000/violation-analysis`
+
+**Enterprise-Grade AI Analysis Framework:**
+Comprehensive violation analysis leveraging advanced LLM reasoning through OpenRouter integration with multi-model fallback capabilities.
+
+**Advanced Analysis Components:**
+- **Root Cause Intelligence** - Deep analysis of violation origins and contributing factors
+- **Business Impact Assessment** - Quantified risk analysis across business, regulatory, and reputational dimensions
+- **Regulatory Penalty Modeling** - Automated calculation of potential fines and sanctions:
+  - **PCI-DSS:** $5,000 - $100,000 monthly penalties with card brand sanctions
+  - **GDPR:** Up to €20 million or 4% of global annual revenue
+  - **CCPA:** $2,500 - $7,500 per violation with class action exposure
+- **Remediation Strategy Generation** - AI-generated, context-specific resolution procedures
+- **Prevention Framework Design** - Long-term compliance strategies and control recommendations
+
+**Enterprise Analysis Workflow:**
+1. **Violation Selection** - Choose from comprehensive violation inventory
+2. **AI Analysis Execution** - Deploy advanced LLM reasoning with enterprise model access
+3. **Comprehensive Report Generation** - Receive detailed analysis with business context
+4. **Remediation Plan Implementation** - Follow AI-generated, step-by-step resolution procedures
+5. **Prevention Strategy Deployment** - Implement long-term controls and monitoring mechanisms
+
+---
+
+### 6. Cryptographic Evidence & Audit Trail Management
+**Access URL:** `http://localhost:3000/evidence`
+
+**Enterprise Audit Trail Architecture:**
+Tamper-proof evidence management system utilizing cryptographic hash-chain technology to ensure regulatory compliance and audit integrity.
+
+**Advanced Audit Features:**
+- **Complete Event Logging** - Comprehensive activity records for all compliance operations
+- **Cryptographic Hash-Chain Verification** - Real-time integrity verification with tamper detection (✅ verified / ❌ compromised)
+- **Immutable Evidence Records** - Cryptographically linked audit trail preventing retroactive modifications
+- **Regulatory Export Capabilities** - Standards-compliant JSON export for compliance reporting and external audits
+- **Forensic Analysis Tools** - Advanced audit trail analysis with timeline reconstruction
+
+**Enterprise Evidence Record Structure:**
 ```json
 {
-  "id": "EVD_ABC123",
-  "timestamp": "2026-01-05T10:30:00Z",
+  "evidence_id": "EVID_2026-01-07_ABC123",
+  "timestamp": "2026-01-07T14:30:00.000Z",
   "event_type": "violation_detected",
-  "violation_id": "VIO_XYZ789",
+  "violation_id": "VIO_PCI_XYZ789",
   "regulation": "PCI-DSS",
-  "hash": "abc123...",
-  "previous_hash": "def456..."
+  "cryptographic_hash": "sha256_abc123def456...",
+  "previous_hash": "sha256_def456ghi789...",
+  "chain_integrity": "verified"
 }
 ```
 
+**Audit Trail Verification Workflow:**
+1. **Evidence Record Access** - Browse comprehensive compliance event history
+2. **Hash-Chain Verification** - Automated cryptographic integrity validation
+3. **Tamper Detection Analysis** - Real-time identification of any evidence modifications
+4. **Compliance Export Generation** - Standards-compliant reporting for regulatory submissions
+5. **Forensic Timeline Analysis** - Detailed event reconstruction for compliance investigations
+
 ---
 
-### 7. Autonomous Agent Activity
-**URL:** `http://localhost:3000/agents`
+### 7. Autonomous Agent Operations Center
+**Access URL:** `http://localhost:3000/agents`
 
-View real-time activity of autonomous compliance agents.
+**Enterprise Agent Management Platform:**
+Real-time monitoring and control center for autonomous compliance agents with advanced operational intelligence.
 
-**Agent Types:**
-- **Monitoring Agent** - Scans data sources for violations
-- **Evidence Agent** - Collects and chains proof
-- **Cognitive Agent** - Analyzes violations with AI
+**Enterprise Agent Types:**
+- **Monitoring Agent** - Continuous data source surveillance and violation pattern detection
+- **Evidence Collection Agent** - Automated evidence gathering and cryptographic chain management  
+- **Cognitive Analysis Agent** - AI-powered violation analysis and remediation strategy development
+- **Compliance Orchestration Agent** - Workflow coordination and cross-agent communication
+
+**Operational Intelligence Features:**
+- **Real-time Agent Status** - Live operational status with performance metrics and health indicators
+- **Agent Decision Transparency** - Complete audit trail of autonomous agent decision-making processes
+- **Performance Analytics** - Agent efficiency metrics, processing times, and accuracy measurements
+- **Resource Utilization Monitoring** - System resource consumption and optimization recommendations
+- **Agent Communication Logs** - Inter-agent communication patterns and coordination activities
 
 ---
 

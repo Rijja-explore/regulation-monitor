@@ -1,19 +1,74 @@
 import hashlib
 import json
 from datetime import datetime
+from pathlib import Path
 from typing import Optional, List, Dict, Any
 from models.evidence import EvidenceRecord
 from models.audit_chain import AuditChainNode
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class AuditChainService:
-    """Service for managing immutable audit chain"""
+    """Service for managing immutable audit chain with SHA-256 cryptographic hashing"""
     
     def __init__(self):
-        self.chain_store: List[AuditChainNode] = []  # In-memory store (replace with DB)
+        self.chain_store: List[AuditChainNode] = []  # In-memory store
+        
+        # File-based persistence for hash chain
+        project_root = Path(__file__).parent.parent
+        self.chain_storage_path = project_root / "data" / "audit_chain.json"
+        logger.info(f"Hash-chain storage initialized at: {self.chain_storage_path.absolute()}")
+        self._ensure_storage_exists()
+        self._load_chain_from_file()
     
+    def _ensure_storage_exists(self):
+        """Create audit chain storage file if it doesn't exist"""
+        self.chain_storage_path.parent.mkdir(parents=True, exist_ok=True)
+        if not self.chain_storage_path.exists():
+            initial_chain = {
+                "chain_id": "audit_chain_v1", 
+                "created_at": datetime.utcnow().isoformat(),
+                "chain": []
+            }
+            with open(self.chain_storage_path, 'w') as f:
+                json.dump(initial_chain, f, indent=2)
+            logger.info(f"Created new audit chain storage at: {self.chain_storage_path.absolute()}")
+    
+    def _load_chain_from_file(self):
+        """Load existing audit chain from file"""
+        try:
+            with open(self.chain_storage_path, 'r') as f:
+                data = json.load(f)
+                for node_dict in data.get("chain", []):
+                    # Convert timestamp string back to datetime
+                    node_dict['timestamp'] = datetime.fromisoformat(node_dict['timestamp'].replace('Z', '+00:00'))
+                    node = AuditChainNode(**node_dict)
+                    self.chain_store.append(node)
+            logger.info(f"Loaded {len(self.chain_store)} audit chain nodes from file")
+        except Exception as e:
+            logger.error(f"Error loading audit chain from file: {e}")
+    
+    def _save_chain_to_file(self):
+        """Save audit chain to file"""
+        try:
+            chain_data = {
+                "chain_id": "audit_chain_v1",
+                "created_at": datetime.utcnow().isoformat(),
+                "total_nodes": len(self.chain_store),
+                "chain": [node.model_dump(mode='json') for node in self.chain_store]
+            }
+            with open(self.chain_storage_path, 'w') as f:
+                json.dump(chain_data, f, indent=2, default=str)
+            logger.info(f"Saved {len(self.chain_store)} audit chain nodes to file")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving audit chain to file: {e}")
+            return False
+
     def compute_hash(self, data: str) -> str:
-        """Compute SHA256 hash"""
+        """Compute SHA256 cryptographic hash"""
         return hashlib.sha256(data.encode()).hexdigest()
     
     def create_node(
@@ -42,18 +97,22 @@ class AuditChainService:
         )
     
     def append(self, evidence: EvidenceRecord) -> AuditChainNode:
-        """Append evidence to audit chain"""
-        # Get last node's hash
+        """Append evidence to cryptographic hash chain"""
+        # Get last node's hash for chaining
         last_node = self.get_latest_node()
         previous_hash = last_node.record_hash if last_node else None
         sequence_number = len(self.chain_store)
         
-        # Create new node
+        # Create new node with cryptographic hash chaining
         node = self.create_node(evidence, previous_hash, sequence_number)
         
         # Add to chain
         self.chain_store.append(node)
         
+        # Persist to file for tamper-proof storage
+        self._save_chain_to_file()
+        
+        logger.info(f"Added node {node.evidence_id} to hash chain (sequence: {sequence_number})")
         return node
     
     def get_latest_node(self) -> Optional[AuditChainNode]:
